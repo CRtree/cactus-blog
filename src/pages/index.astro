@@ -54,26 +54,20 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 
 <PageLayout meta={{ title: "Home" }}>
 	<section>
-		<h1 class="title mb-6">Hello World!</h1>
+		<h1 class="title mb-6">Who Am I</h1>
 		<p class="mb-4">
-			Hi, It's Samuel Zuo, it's my personal blog.
+			I'm Samuel Zuo(左潇), lived in Nanjing, Jiangsu, CN.
+		</p>
+		<p class="mb-4"> 
+			I'm a software engineer. I have worked for 7 years.
+		</p>
+		<p class="mb-4">
+			I'm skilled in Java/Spring/Maven/MySQL/PostgreSQL/Redis/Azure Data Explorer.
 		</p>
 		<SocialList />
 	</section>
-	<section aria-label="Blog post list" class="mt-16">
-		<h2 class="title mb-4 text-xl">Posts</h2>
-		<ul class="space-y-4">
-			{
-				allPostsByDate.map((p) => (
-					<li class="flex flex-col gap-x-2 sm:flex-row">
-						<PostPreview post={p} />
-					</li>
-				))
-			}
-		</ul>
-	</section>
 	<section class="mt-16">
-		<h2 class="title mb-4 text-xl">Technologies</h2>
+		<h2 class="title mb-4 text-xl">Side Projects</h2>
 		<dl class="space-y-4">
 			{
 				cactusTech.map(({ desc, href, title }) => (
@@ -91,5 +85,17 @@ const cactusTech: { desc: string; href: string; title: string }[] = [
 				))
 			}
 		</dl>
+	</section>
+	<section aria-label="Blog post list" class="mt-16">
+		<h2 class="title mb-4 text-xl">Posts</h2>
+		<ul class="space-y-4">
+			{
+				allPostsByDate.map((p) => (
+					<li class="flex flex-col gap-x-2 sm:flex-row">
+						<PostPreview post={p} />
+					</li>
+				))
+			}
+		</ul>
 	</section>
 </PageLayout>
