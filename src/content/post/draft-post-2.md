@@ -1,8 +1,12 @@
 ---
-title: "A working draft title"
-description: "This post is for testing the draft post functionality"
-publishDate: "10 March 2024"
-tags: ["test"]
+title: "Cat 吨吨(dundun)"
+description: "This post is for our pet dundun, who is cute cat girl"
+publishDate: "10 October 2024"
+tags: ["cat"]
 ---
 
-If this is working correctly, this post should only be accessible in a dev environment, as well as any tags that are unique to this post.
+I and my wife, we have a golden british shorthair cat who named 吨吨(dundun). Dundun is two years old, and she is a cute girl. We love her very much. There are some live photos for her:
+![cat dundun1](./IMG_2864_CAT.png)
+![cat dundun2](./IMG_1578_CAT.png)
+![cat dundun3](./IMG_1363_CAT.JPG)
+![cat dundun3](./IMG_2260_CAT.jpg)
