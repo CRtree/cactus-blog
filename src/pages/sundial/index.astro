@@ -1,98 +1,874 @@
 ---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+
+import Device from "@/components/sundial/Device.astro";
 import PageLayout from "@/layouts/Base.astro";
 
+import icon from "@/assets/sundial/icon.webp";
+import screenHistory from "@/assets/sundial/screen-history.webp";
+import screenLimits from "@/assets/sundial/screen-limits.webp";
+import screenNewLimit from "@/assets/sundial/screen-new-limit.webp";
+import screenShield from "@/assets/sundial/screen-shield.webp";
+import screenToday from "@/assets/sundial/screen-today.webp";
+
+// Paste the App Store link here once Sundial is live. While it is empty the page
+// shows an honest "coming soon" badge instead of a dead link.
+const appStoreUrl = "";
+
+const features = [
+	{
+		alt: "Sundial's Limits tab, listing rules for X, Rednote, Bilibili and two app groups with their daily allowances.",
+		body: "Give any app or category a daily allowance. One rule can hold as many apps as you like. When the time is up, iOS blocks the app itself — not a timer you can swipe away.",
+		bullets: ["Any app, or a whole category", "One rule can hold many apps", "Resets at midnight on its own"],
+		eyebrow: "Limits",
+		id: "limits",
+		image: screenLimits,
+		index: "01",
+		title: "Limits that actually shield",
+	},
+	{
+		alt: "Sundial's app shield: a sun icon, the line '10 min done for today.', the reason 'For my health. Put the phone down.', and two buttons.",
+		body: "Every shield first says what you finished — “10 min done for today.” Then it repeats the reason you set that rule: “For my health. Put the phone down.” The exit stays yours.",
+		bullets: ["Finish for today, and keep the limit", "Take 15 more minutes", "Lift that rule until midnight"],
+		eyebrow: "The shield",
+		id: "shield",
+		image: screenShield,
+		index: "02",
+		title: "A block that says why",
+	},
+	{
+		alt: "Sundial's History tab: a year of days as a warm heatmap, with one day opened to show apps, categories and total time.",
+		body: "A whole year of days in one heatmap, shaded by how much you used. Open any day for the detail: which apps, which categories, and how they compare with your limits.",
+		bullets: ["A year at a glance", "Per-day app and category detail", "Each day against its limits"],
+		eyebrow: "History",
+		id: "history",
+		image: screenHistory,
+		index: "03",
+		title: "A year in one heatmap",
+	},
+	{
+		alt: "Sundial's New Limit sheet: a name field, app picker, a grid of reasons such as Sleep, Mind & body, Study, Family, Work and Other, and a daily duration wheel.",
+		body: "Pick the apps, name the rule, choose a duration, and say why it matters. That reason is what greets you later, at the exact moment it counts.",
+		bullets: ["Pick apps or a category", "Name the rule and the reason", "Choose a daily duration"],
+		eyebrow: "Set up",
+		id: "setup",
+		image: screenNewLimit,
+		index: "04",
+		title: "Set one in 20 seconds",
+	},
+];
+
+const extras = [
+	{
+		body: "Today's figure and your most urgent rules live on the Home Screen, small or medium.",
+		icon: "mdi:widgets-outline",
+		title: "On your Home Screen",
+	},
+	{
+		body: "A running estimate of today's screen time, draining as the hours do.",
+		icon: "mdi:heart-pulse",
+		title: "A health score",
+	},
+	{
+		body: "As the day turns, every limit refills. No streak to keep, no guilt to carry.",
+		icon: "mdi:weather-night",
+		title: "Midnight reset",
+	},
+];
+
 const meta = {
-	title: "Sundial Support",
 	description:
-		"Support for Sundial (晷), the screen time app for iPhone — permissions, limits, widgets, purchases and data.",
+		"Sundial (晷) is a screen time app for iPhone — daily app limits that actually shield, a block that says why, and a year of history in one heatmap.",
+	title: "Sundial",
 };
 ---
 
 <PageLayout meta={meta}>
-	<div class="space-y-6">
-		<h1 class="title">Sundial — Support</h1>
-		<p class="text-gray-500 dark:text-gray-400">
-			Help for Sundial (晷), the screen time app for iPhone.
-		</p>
+	<script is:inline>
+		document.documentElement.classList.add("sd-js");
+	</script>
 
-		<div class="rounded-lg border border-gray-200 p-5 dark:border-gray-700">
-			<h2 class="text-xl font-semibold">Contact</h2>
-			<p class="mt-2">
-				Email <a href="mailto:zuoxiaooo@icloud.com"><span>zuoxiaooo</span><span>@</span><span>icloud.com</span></a> — please include your iOS
-				version and what you expected to happen. You can also use
-				<strong>Settings → Feedback</strong> inside the app.
-			</p>
-			<p class="mt-2 text-gray-500 dark:text-gray-400">
-				邮件联系 <a href="mailto:zuoxiaooo@icloud.com"><span>zuoxiaooo</span><span>@</span><span>icloud.com</span></a>，或在 App 内的「设置 →
-				反馈」中告诉我们。
-			</p>
-		</div>
+	<div class="sd">
+		<!-- Hero -->
+		<section class="sd-hero">
+			<div aria-hidden="true" class="sd-wash"></div>
+			<div class="sd-hero-inner">
+				<div class="sd-hero-copy" data-reveal>
+					<div class="sd-brand">
+						<Image alt="Sundial app icon" class="sd-brand-icon" height={112} src={icon} width={112} />
+						<div>
+							<p class="sd-brand-name">Sundial <span lang="zh-Hans">晷</span></p>
+							<p class="sd-brand-sub">Screen time for iPhone</p>
+						</div>
+					</div>
+					<h1 class="sd-display">A limit should feel like a sundial, not a stopwatch.</h1>
+					<p class="sd-lede">
+						Give the apps that eat your day a daily allowance. When the time runs out, iOS blocks the app
+						itself — and the shield repeats the reason you set.
+					</p>
+					<div class="sd-cta-row">
+						{
+							appStoreUrl ? (
+								<a class="sd-appstore" href={appStoreUrl} rel="noopener noreferrer" target="_blank">
+									<Icon aria-hidden="true" class="sd-appstore-logo" name="mdi:apple" />
+									<span>
+										<small>Download on the</small>
+										<strong>App Store</strong>
+									</span>
+								</a>
+							) : (
+								<span aria-disabled="true" class="sd-appstore sd-appstore--soon">
+									<Icon aria-hidden="true" class="sd-appstore-logo" name="mdi:apple" />
+									<span>
+										<small>Coming soon to the</small>
+										<strong>App Store</strong>
+									</span>
+								</span>
+							)
+						}
+						<a class="sd-btn sd-btn--ghost" href="#features">See how it works</a>
+					</div>
+					<p class="sd-meta">Free to use · Sundial Pro is a one-time unlock · No subscription, ever</p>
+				</div>
+				<div class="sd-hero-visual" data-reveal style="--d:120ms">
+					<Device
+						alt="Sundial's Today tab: today's screen time, a health reading, and an ink-wash landscape."
+						priority
+						sizes="(min-width: 640px) 320px, 80vw"
+						src={screenToday}
+						widths={[320, 480, 700, 980]}
+					/>
+					<div aria-hidden="true" class="sd-chip">
+						<span class="sd-chip-label">Screen time</span>
+						<strong class="sd-chip-value">4h 38m</strong>
+						<span class="sd-chip-bar"><i></i></span>
+					</div>
+				</div>
+			</div>
+		</section>
 
-		<h2 class="mt-4 text-xl font-semibold">Screen Time permission</h2>
-		<p>
-			Sundial reads your usage and blocks apps through Apple's Screen Time framework. Without that permission
-			the app can show nothing and limit nothing. If you declined it, or revoked it later, turn it back on in
-			<strong>Settings → Screen Time → Sundial</strong>.
-		</p>
-		<p class="text-gray-500 dark:text-gray-400">
-			晷通过 Apple 的「屏幕时间」框架读取用量并屏蔽 App。没有该权限，App 无法显示数据也无法限制。如果曾拒绝
-			或撤销，请在<strong>设置 → 屏幕时间 → 晷</strong>中重新开启。
-		</p>
+		<!-- Feature tour -->
+		<section class="sd-tour" id="features">
+			{
+				features.map((feature, i) => (
+					<article class:list={["sd-feature", i % 2 === 1 && "sd-feature--reverse"]} data-reveal id={feature.id}>
+						<div class="sd-feature-copy">
+							<p class="sd-feature-index">
+								<span>{feature.index}</span>
+								{feature.eyebrow}
+							</p>
+							<h2 class="sd-h2">{feature.title}</h2>
+							<p class="sd-body">{feature.body}</p>
+							<ul class="sd-list">
+								{feature.bullets.map((bullet) => (
+									<li>{bullet}</li>
+								))}
+							</ul>
+						</div>
+						<div class="sd-feature-device">
+							<Device alt={feature.alt} sizes="(min-width: 640px) 300px, 72vw" src={feature.image} />
+						</div>
+					</article>
+				))
+			}
+		</section>
 
-		<h2 class="text-xl font-semibold">Why does the widget show more time than I actually used?</h2>
-		<p>
-			If <em>Share Across Devices</em> is on, Apple includes usage from other devices signed in to the same
-			Apple ID — a Mac, for example — in the activity Sundial's monitor receives, and Apple gives apps no way
-			to scope that to one device. The daily report inside the app is limited to this iPhone. To make the two
-			agree, turn <em>Share Across Devices</em> off in <strong>Settings → Screen Time</strong>.
-		</p>
-		<p class="text-gray-500 dark:text-gray-400">
-			如果开启了「跨设备共享」，Apple 会把同一 Apple ID 下其它设备（例如 Mac）的用量也算进晷后台收到的数据
-			里，而 Apple 没有给 App 按设备筛选这些事件的能力。App 内的日报只统计这台 iPhone。想让两者一致，请在
-			<strong>设置 → 屏幕时间</strong>中关闭「跨设备共享」。
-		</p>
+		<!-- Also built in -->
+		<section class="sd-extras">
+			<div class="sd-extra-grid">
+				{
+					extras.map((extra, i) => (
+						<article class="sd-extra" data-reveal style={`--d:${i * 90}ms`}>
+							<Icon aria-hidden="true" class="sd-extra-icon" name={extra.icon} />
+							<h3 class="sd-extra-title">{extra.title}</h3>
+							<p class="sd-extra-body">{extra.body}</p>
+						</article>
+					))
+				}
+			</div>
+		</section>
 
-		<h2 class="text-xl font-semibold">What happens when a limit runs out?</h2>
-		<p>
-			iOS shields the apps in that rule. The shield shows what you finished and the reason you set for the rule,
-			and offers three ways on: <em>I'm Done</em> (keeps the limit), <em>15 more minutes</em>, or
-			<em>Remove Limit</em> for the rest of the day. Limits reset at midnight.
-		</p>
-		<p class="text-gray-500 dark:text-gray-400">
-			到时间点，该规则里的 App 会被系统屏蔽。屏蔽页会显示你今天完成了多少、以及你为该规则设定的理由，并给出
-			三个出口：<em>今天到此为止</em>（保留限额）、<em>再玩一刻钟</em>、或今天<em>解除限制</em>。限额在每天
-			00:00 重置。
-		</p>
+		<!-- Quiet by design -->
+		<section class="sd-quiet" data-reveal>
+			<div aria-hidden="true" class="sd-wash sd-wash--quiet"></div>
+			<div class="sd-quiet-inner">
+				<p class="sd-feature-index"><span>05</span>Quiet by design</p>
+				<h2 class="sd-h2">No account. No server. No analytics. No ads.</h2>
+				<p class="sd-body">
+					Sundial reads only your total usage time through Apple's Screen Time framework — never what you do
+					inside an app. Usage, limits and settings stay on your iPhone.
+				</p>
+				<p class="sd-quiet-link">
+					<a class="sd-link" href="/sundial/privacy/">Read the privacy policy <span aria-hidden="true">→</span></a>
+				</p>
+			</div>
+		</section>
 
-		<h2 class="text-xl font-semibold">Purchases</h2>
-		<p>
-			Sundial Pro is a one-time purchase, not a subscription — there is nothing to cancel. If Pro does not
-			appear after buying or restoring, open <strong>Settings → Sundial Pro → Restore Purchase</strong>.
-			Purchases are tied to your Apple ID; billing is handled by Apple.
-		</p>
-		<p class="text-gray-500 dark:text-gray-400">
-			晷 Pro 是一次性买断，不是订阅，因此无需取消。若购买或恢复后没有解锁，请打开
-			<strong>设置 → 晷 Pro → 恢复购买</strong>。购买与 Apple ID 绑定，由 Apple 处理账单。
-		</p>
+		<!-- Pro -->
+		<section class="sd-pro" data-reveal>
+			<div class="sd-pro-copy">
+				<p class="sd-feature-index">Sundial Pro</p>
+				<h2 class="sd-h2">One purchase. Yours for good.</h2>
+				<p class="sd-body">
+					No subscription, nothing to cancel. Pro opens up every theme colour, every background scene, and
+					the Home Screen widget. The heart of the app — limits, shields and history — is free.
+				</p>
+			</div>
+			<div class="sd-pro-card">
+				<span class="sd-pro-badge">One-time unlock</span>
+				<ul class="sd-list sd-list--pro">
+					<li>Every theme colour</li>
+					<li>Every background scene</li>
+					<li>Home Screen widget, all sizes</li>
+				</ul>
+				<span class="sd-pro-note">No subscription. Ever.</span>
+			</div>
+		</section>
 
-		<h2 class="text-xl font-semibold">My data</h2>
-		<p>
-			Usage, limits and settings live only on your iPhone — there is no account and no server. Deleting the app
-			removes them; removing individual limits or changing the theme does too. See the
-			<a href="/sundial/privacy/">Privacy Policy</a>.
-		</p>
-		<p class="text-gray-500 dark:text-gray-400">
-			用量、限额与设置只保存在你的 iPhone 上，没有账号也没有服务器。删除 App 即可清除这些数据，删除单条限额
-			或更换主题同理。详见<a href="/sundial/privacy/">隐私政策</a>。
-		</p>
-
-		<h2 class="text-xl font-semibold">Requirements</h2>
-		<p>
-			iPhone with iOS 27 or later. Sundial is iPhone-only; it does not run on iPad, and it does not track other
-			devices or people.
-		</p>
-		<p class="text-gray-500 dark:text-gray-400">
-			需要 iOS 27 或更高版本的 iPhone。晷仅支持 iPhone，不支持 iPad，也不会监控其它设备或他人。
-		</p>
+		<!-- Closing -->
+		<section class="sd-final" data-reveal>
+			<div aria-hidden="true" class="sd-wash"></div>
+			<div class="sd-final-inner">
+				<h2 class="sd-display sd-display--sm">Put the phone down on time.</h2>
+				<div class="sd-cta-row sd-cta-row--center">
+					{
+						appStoreUrl ? (
+							<a class="sd-appstore" href={appStoreUrl} rel="noopener noreferrer" target="_blank">
+								<Icon aria-hidden="true" class="sd-appstore-logo" name="mdi:apple" />
+								<span>
+									<small>Download on the</small>
+									<strong>App Store</strong>
+								</span>
+							</a>
+						) : (
+							<span aria-disabled="true" class="sd-appstore sd-appstore--soon">
+								<Icon aria-hidden="true" class="sd-appstore-logo" name="mdi:apple" />
+								<span>
+									<small>Coming soon to the</small>
+									<strong>App Store</strong>
+								</span>
+							</span>
+						)
+					}
+				</div>
+				<p class="sd-meta sd-meta--center">
+					Requires the Screen Time permission (Settings → Screen Time → Sundial). iPhone, iOS 27 or later.
+				</p>
+				<nav class="sd-foot-links">
+					<a href="/sundial/support/">Support</a>
+					<span aria-hidden="true">·</span>
+					<a href="/sundial/privacy/">Privacy</a>
+					<span aria-hidden="true">·</span>
+					<a href="/">More by Samuel Zuo</a>
+				</nav>
+			</div>
+		</section>
 	</div>
 </PageLayout>
+
+<script>
+	const reveals = document.querySelectorAll("[data-reveal]");
+	const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	if (reduced) {
+		reveals.forEach((el) => el.classList.add("is-in"));
+	} else {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add("is-in");
+						observer.unobserve(entry.target);
+					}
+				}
+			},
+			{ rootMargin: "0px 0px -8% 0px", threshold: 0.15 },
+		);
+		reveals.forEach((el) => observer.observe(el));
+	}
+</script>
+
+<style>
+	/* ---------------------------------------------------------------- palette */
+	.sd {
+		--sd-ink: #1c211a;
+		--sd-ink-soft: #414b3a;
+		--sd-muted: #6d7561;
+		--sd-line: rgb(28 33 26 / 0.12);
+		--sd-line-strong: rgb(28 33 26 / 0.22);
+		--sd-card: rgb(255 255 255 / 0.5);
+		--sd-ember: #c2552a;
+		--sd-ember-soft: #e08a5f;
+		--sd-olive: #5e7544;
+		--sd-btn-bg: #1c211a;
+		--sd-btn-fg: #f7f4ee;
+		color: var(--sd-ink);
+	}
+
+	:global([data-theme="dark"]) .sd {
+		--sd-ink: #e9e4d8;
+		--sd-ink-soft: #c9c4b5;
+		--sd-muted: #98a086;
+		--sd-line: rgb(233 228 216 / 0.13);
+		--sd-line-strong: rgb(233 228 216 / 0.24);
+		--sd-card: rgb(255 255 255 / 0.035);
+		--sd-ember: #e68566;
+		--sd-ember-soft: #f0a483;
+		--sd-olive: #a3c07d;
+		--sd-btn-bg: #e9e4d8;
+		--sd-btn-fg: #14170f;
+	}
+
+	/* --------------------------------------------------------------- typography */
+	.sd-display,
+	.sd-h2,
+	.sd-extra-title,
+	.sd-brand-name {
+		font-family: ui-serif, "New York", "Iowan Old Style", Georgia, Cambria, "Times New Roman", serif;
+		font-weight: 600;
+		color: var(--sd-ink);
+		text-wrap: balance;
+	}
+
+	.sd-display {
+		margin-top: 1.5rem;
+		font-size: clamp(2.1rem, 7.2vw, 3.1rem);
+		line-height: 1.03;
+		letter-spacing: -0.024em;
+	}
+
+	.sd-display--sm {
+		margin-top: 0;
+		font-size: clamp(1.9rem, 6vw, 2.6rem);
+	}
+
+	.sd-h2 {
+		font-size: clamp(1.55rem, 4.6vw, 2.05rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+	}
+
+	.sd-lede {
+		margin-top: 1.25rem;
+		max-width: 34rem;
+		font-size: 1rem;
+		line-height: 1.78;
+		color: var(--sd-ink-soft);
+	}
+
+	.sd-body {
+		margin-top: 1rem;
+		font-size: 0.95rem;
+		line-height: 1.82;
+		color: var(--sd-ink-soft);
+	}
+
+	.sd-feature-index {
+		display: flex;
+		align-items: baseline;
+		gap: 0.6rem;
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--sd-ember);
+	}
+
+	.sd-feature-index span {
+		color: var(--sd-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sd-link {
+		color: var(--sd-ink);
+		text-decoration: underline;
+		text-decoration-color: var(--sd-ember);
+		text-underline-offset: 3px;
+		text-decoration-thickness: 1.5px;
+	}
+
+	.sd-link:hover {
+		color: var(--sd-ember);
+	}
+
+	.sd-meta {
+		margin-top: 1.25rem;
+		font-size: 0.75rem;
+		letter-spacing: 0.02em;
+		color: var(--sd-muted);
+	}
+
+	.sd-meta--center {
+		text-align: center;
+	}
+
+	/* ------------------------------------------------------------------- wash */
+	.sd-wash {
+		position: absolute;
+		inset: -2.2rem -1rem;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+		border-radius: 2.5rem;
+		-webkit-mask-image: radial-gradient(125% 85% at 74% 12%, #000 0%, transparent 74%);
+		mask-image: radial-gradient(125% 85% at 74% 12%, #000 0%, transparent 74%);
+	}
+
+	.sd-wash::before {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(55% 48% at 82% 6%, color-mix(in srgb, var(--sd-ember) 26%, transparent), transparent 70%),
+			radial-gradient(48% 42% at 12% 34%, color-mix(in srgb, var(--sd-olive) 20%, transparent), transparent 72%);
+		content: "";
+		filter: blur(38px);
+	}
+
+	.sd-wash::after {
+		position: absolute;
+		inset: 0;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+		content: "";
+		mix-blend-mode: soft-light;
+		opacity: 0.28;
+	}
+
+	.sd-wash--quiet {
+		inset: -40% -20%;
+		-webkit-mask-image: none;
+		mask-image: none;
+	}
+
+	/* ------------------------------------------------------------------- hero */
+	.sd-hero {
+		position: relative;
+		padding-block: 0.5rem 1rem;
+	}
+
+	.sd-hero-inner {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		gap: 2.75rem;
+		align-items: center;
+	}
+
+	.sd-brand {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+	}
+
+	:global(.sd-brand-icon) {
+		height: 3.4rem;
+		width: 3.4rem;
+		border-radius: 0.95rem;
+		box-shadow: 0 10px 24px -10px rgb(0 0 0 / 0.45), inset 0 0 0 1px rgb(255 255 255 / 0.08);
+	}
+	.sd-brand-name {
+		font-size: 1.35rem;
+		line-height: 1.1;
+	}
+
+	.sd-brand-name span {
+		color: var(--sd-muted);
+		font-size: 1.05rem;
+	}
+
+	.sd-brand-sub {
+		margin-top: 0.15rem;
+		font-size: 0.72rem;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--sd-muted);
+	}
+
+	.sd-cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+		margin-top: 1.75rem;
+	}
+
+	.sd-cta-row--center {
+		justify-content: center;
+	}
+
+	.sd-hero-visual {
+		position: relative;
+		display: flex;
+		justify-content: center;
+	}
+
+	.sd-hero-visual :global(.sd-device) {
+		width: min(80%, 20rem);
+	}
+
+	.sd-chip {
+		position: absolute;
+		bottom: 12%;
+		left: 2%;
+		z-index: 3;
+		display: none;
+		min-width: 8.5rem;
+		padding: 0.7rem 0.85rem;
+		border: 1px solid var(--sd-line);
+		border-radius: 0.95rem;
+		background: color-mix(in srgb, var(--sd-card) 85%, transparent);
+		backdrop-filter: blur(14px) saturate(1.6);
+		box-shadow: 0 24px 50px -24px rgb(0 0 0 / 0.5);
+	}
+
+	.sd-chip-label {
+		display: block;
+		font-size: 0.6rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--sd-muted);
+	}
+
+	.sd-chip-value {
+		display: block;
+		margin-top: 0.15rem;
+		font-family: ui-serif, "New York", Georgia, serif;
+		font-size: 1.5rem;
+		line-height: 1;
+		color: var(--sd-ink);
+	}
+
+	.sd-chip-bar {
+		display: block;
+		height: 3px;
+		margin-top: 0.55rem;
+		border-radius: 999px;
+		background: var(--sd-line);
+	}
+
+	.sd-chip-bar i {
+		display: block;
+		height: 100%;
+		width: 62%;
+		border-radius: inherit;
+		background: linear-gradient(90deg, var(--sd-olive), var(--sd-ember));
+	}
+
+	/* --------------------------------------------------------------- buttons */
+	.sd-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.7rem 1.15rem;
+		border: 1px solid transparent;
+		border-radius: 999px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-decoration: none;
+		cursor: pointer;
+		transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease,
+			color 0.18s ease;
+	}
+
+	.sd-btn:active {
+		transform: scale(0.97);
+	}
+
+	.sd-btn--ghost {
+		border-color: var(--sd-line-strong);
+		color: var(--sd-ink);
+	}
+
+	.sd-btn--ghost:hover {
+		background: var(--sd-card);
+	}
+
+	.sd-appstore {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.5rem 1.05rem 0.5rem 0.9rem;
+		border-radius: 0.85rem;
+		background: var(--sd-btn-bg);
+		color: var(--sd-btn-fg);
+		text-decoration: none;
+		transition: transform 0.18s ease, opacity 0.18s ease;
+	}
+
+	.sd-appstore:active {
+		transform: scale(0.97);
+	}
+
+	:global(.sd-appstore-logo) {
+		height: 1.5rem;
+		width: 1.5rem;
+	}
+
+	.sd-appstore small {
+		display: block;
+		font-size: 0.55rem;
+		letter-spacing: 0.08em;
+		line-height: 1.2;
+		text-transform: uppercase;
+		opacity: 0.75;
+	}
+
+	.sd-appstore strong {
+		display: block;
+		font-size: 0.95rem;
+		line-height: 1.15;
+	}
+
+	.sd-appstore--soon {
+		opacity: 0.7;
+		cursor: default;
+	}
+
+	/* --------------------------------------------------------------- features */
+	.sd-tour {
+		display: grid;
+		gap: 4.5rem;
+		margin-top: 5rem;
+	}
+
+	.sd-feature {
+		display: grid;
+		gap: 2rem;
+		align-items: center;
+		scroll-margin-top: 2rem;
+	}
+
+	.sd-feature-device {
+		display: flex;
+		justify-content: center;
+	}
+
+	.sd-feature-device :global(.sd-device) {
+		width: min(72%, 17rem);
+	}
+
+	.sd-list {
+		display: grid;
+		gap: 0.55rem;
+		margin-top: 1.35rem;
+	}
+
+	.sd-list li {
+		position: relative;
+		padding-left: 1.5rem;
+		font-size: 0.9rem;
+		line-height: 1.6;
+		color: var(--sd-ink-soft);
+	}
+
+	.sd-list li::before {
+		position: absolute;
+		top: 0.68em;
+		left: 0;
+		width: 0.7rem;
+		height: 1.5px;
+		border-radius: 2px;
+		background: var(--sd-ember);
+		content: "";
+	}
+
+	/* ----------------------------------------------------------------- extras */
+	.sd-extras {
+		margin-top: 5rem;
+	}
+
+	.sd-extra-grid {
+		display: grid;
+		gap: 0.85rem;
+	}
+
+	.sd-extra {
+		padding: 1.35rem;
+		border: 1px solid var(--sd-line);
+		border-radius: 1.15rem;
+		background: var(--sd-card);
+	}
+
+	:global(.sd-extra-icon) {
+		height: 1.6rem;
+		width: 1.6rem;
+		color: var(--sd-ember);
+	}
+
+	.sd-extra-title {
+		margin-top: 0.8rem;
+		font-size: 1.15rem;
+		line-height: 1.2;
+	}
+
+	.sd-extra-body {
+		margin-top: 0.45rem;
+		font-size: 0.85rem;
+		line-height: 1.7;
+		color: var(--sd-ink-soft);
+	}
+
+	/* ------------------------------------------------------------------ quiet */
+	.sd-quiet {
+		position: relative;
+		overflow: hidden;
+		margin-top: 5rem;
+		padding: 2.25rem;
+		border: 1px solid var(--sd-line);
+		border-radius: 1.6rem;
+		background: var(--sd-card);
+	}
+
+	.sd-quiet-inner {
+		position: relative;
+		z-index: 1;
+		max-width: 34rem;
+	}
+
+	.sd-quiet-inner .sd-h2 {
+		margin-top: 0.85rem;
+	}
+
+	.sd-quiet-link {
+		margin-top: 1.4rem;
+	}
+
+	/* -------------------------------------------------------------------- pro */
+	.sd-pro {
+		display: grid;
+		gap: 1.75rem;
+		align-items: center;
+		margin-top: 5rem;
+	}
+
+	.sd-pro-copy .sd-h2 {
+		margin-top: 0.85rem;
+	}
+
+	.sd-pro-card {
+		padding: 1.5rem;
+		border: 1px solid var(--sd-line-strong);
+		border-radius: 1.35rem;
+		background: var(--sd-card);
+	}
+
+	.sd-pro-badge {
+		display: inline-block;
+		padding: 0.3rem 0.7rem;
+		border-radius: 999px;
+		background: var(--sd-ember);
+		color: var(--sd-btn-fg);
+		font-size: 0.65rem;
+		font-weight: 600;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.sd-list--pro {
+		margin-top: 1.1rem;
+	}
+
+	.sd-pro-note {
+		display: block;
+		margin-top: 1.25rem;
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+		color: var(--sd-muted);
+	}
+
+	/* ------------------------------------------------------------------ final */
+	.sd-final {
+		position: relative;
+		margin-top: 5.5rem;
+		padding-block: 0.5rem;
+	}
+
+	.sd-final .sd-wash {
+		-webkit-mask-image: radial-gradient(120% 130% at 50% 110%, #000 0%, transparent 72%);
+		mask-image: radial-gradient(120% 130% at 50% 110%, #000 0%, transparent 72%);
+	}
+
+	.sd-final-inner {
+		position: relative;
+		z-index: 1;
+		text-align: center;
+	}
+
+	.sd-foot-links {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.6rem;
+		margin-top: 1.75rem;
+		font-size: 0.75rem;
+		color: var(--sd-muted);
+	}
+
+	.sd-foot-links a {
+		color: var(--sd-muted);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.sd-foot-links a:hover {
+		color: var(--sd-ember);
+	}
+
+	/* --------------------------------------------------------------- reveals */
+	:global(.sd-js) [data-reveal] {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+
+	:global(.sd-js) [data-reveal].is-in {
+		opacity: 1;
+		transform: none;
+		transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+		transition-delay: var(--d, 0ms);
+	}
+
+	/* -------------------------------------------------------------- responsive */
+	@media (min-width: 640px) {
+		.sd-hero-inner {
+			grid-template-columns: 1.05fr 0.95fr;
+			gap: 1.5rem;
+		}
+
+		.sd-chip {
+			display: block;
+		}
+
+		.sd-feature {
+			grid-template-columns: 1fr 1fr;
+			gap: 3rem;
+		}
+
+		.sd-feature--reverse .sd-feature-copy {
+			order: 2;
+		}
+
+		.sd-feature--reverse .sd-feature-device {
+			order: 1;
+		}
+
+		.sd-extra-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+		}
+
+		.sd-pro {
+			grid-template-columns: 1.15fr 0.85fr;
+			gap: 2.5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(.sd-js) [data-reveal],
+		:global(.sd-js) [data-reveal].is-in {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+	}
+</style>
