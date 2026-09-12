@@ -37,7 +37,10 @@ export default defineConfig({
 		tailwind({
 			applyBaseStyles: false,
 		}),
-		sitemap(),
+		// Blog and About are hidden for now, so keep them out of the sitemap.
+		sitemap({
+			filter: (page) => !page.includes("/about") && !page.includes("/posts") && !page.includes("/tags"),
+		}),
 		mdx(),
 	],
 	image: {
