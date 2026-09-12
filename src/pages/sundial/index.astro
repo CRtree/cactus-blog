@@ -1,0 +1,98 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	title: "Sundial Support",
+	description:
+		"Support for Sundial (晷), the screen time app for iPhone — permissions, limits, widgets, purchases and data.",
+};
+---
+
+<PageLayout meta={meta}>
+	<div class="space-y-6">
+		<h1 class="title">Sundial — Support</h1>
+		<p class="text-gray-500 dark:text-gray-400">
+			Help for Sundial (晷), the screen time app for iPhone.
+		</p>
+
+		<div class="rounded-lg border border-gray-200 p-5 dark:border-gray-700">
+			<h2 class="text-xl font-semibold">Contact</h2>
+			<p class="mt-2">
+				Email <a href="mailto:zuoxiaooo@icloud.com">zuoxiaooo@icloud.com</a> — please include your iOS
+				version and what you expected to happen. You can also use
+				<strong>Settings → Feedback</strong> inside the app.
+			</p>
+			<p class="mt-2 text-gray-500 dark:text-gray-400">
+				邮件联系 <a href="mailto:zuoxiaooo@icloud.com">zuoxiaooo@icloud.com</a>，或在 App 内的「设置 →
+				反馈」中告诉我们。
+			</p>
+		</div>
+
+		<h2 class="mt-4 text-xl font-semibold">Screen Time permission</h2>
+		<p>
+			Sundial reads your usage and blocks apps through Apple's Screen Time framework. Without that permission
+			the app can show nothing and limit nothing. If you declined it, or revoked it later, turn it back on in
+			<strong>Settings → Screen Time → Sundial</strong>.
+		</p>
+		<p class="text-gray-500 dark:text-gray-400">
+			晷通过 Apple 的「屏幕时间」框架读取用量并屏蔽 App。没有该权限，App 无法显示数据也无法限制。如果曾拒绝
+			或撤销，请在<strong>设置 → 屏幕时间 → 晷</strong>中重新开启。
+		</p>
+
+		<h2 class="text-xl font-semibold">Why does the widget show more time than I actually used?</h2>
+		<p>
+			If <em>Share Across Devices</em> is on, Apple includes usage from other devices signed in to the same
+			Apple ID — a Mac, for example — in the activity Sundial's monitor receives, and Apple gives apps no way
+			to scope that to one device. The daily report inside the app is limited to this iPhone. To make the two
+			agree, turn <em>Share Across Devices</em> off in <strong>Settings → Screen Time</strong>.
+		</p>
+		<p class="text-gray-500 dark:text-gray-400">
+			如果开启了「跨设备共享」，Apple 会把同一 Apple ID 下其它设备（例如 Mac）的用量也算进晷后台收到的数据
+			里，而 Apple 没有给 App 按设备筛选这些事件的能力。App 内的日报只统计这台 iPhone。想让两者一致，请在
+			<strong>设置 → 屏幕时间</strong>中关闭「跨设备共享」。
+		</p>
+
+		<h2 class="text-xl font-semibold">What happens when a limit runs out?</h2>
+		<p>
+			iOS shields the apps in that rule. The shield shows what you finished and the reason you set for the rule,
+			and offers three ways on: <em>I'm Done</em> (keeps the limit), <em>15 more minutes</em>, or
+			<em>Remove Limit</em> for the rest of the day. Limits reset at midnight.
+		</p>
+		<p class="text-gray-500 dark:text-gray-400">
+			到时间点，该规则里的 App 会被系统屏蔽。屏蔽页会显示你今天完成了多少、以及你为该规则设定的理由，并给出
+			三个出口：<em>今天到此为止</em>（保留限额）、<em>再玩一刻钟</em>、或今天<em>解除限制</em>。限额在每天
+			00:00 重置。
+		</p>
+
+		<h2 class="text-xl font-semibold">Purchases</h2>
+		<p>
+			Sundial Pro is a one-time purchase, not a subscription — there is nothing to cancel. If Pro does not
+			appear after buying or restoring, open <strong>Settings → Sundial Pro → Restore Purchase</strong>.
+			Purchases are tied to your Apple ID; billing is handled by Apple.
+		</p>
+		<p class="text-gray-500 dark:text-gray-400">
+			晷 Pro 是一次性买断，不是订阅，因此无需取消。若购买或恢复后没有解锁，请打开
+			<strong>设置 → 晷 Pro → 恢复购买</strong>。购买与 Apple ID 绑定，由 Apple 处理账单。
+		</p>
+
+		<h2 class="text-xl font-semibold">My data</h2>
+		<p>
+			Usage, limits and settings live only on your iPhone — there is no account and no server. Deleting the app
+			removes them; removing individual limits or changing the theme does too. See the
+			<a href="/sundial/privacy/">Privacy Policy</a>.
+		</p>
+		<p class="text-gray-500 dark:text-gray-400">
+			用量、限额与设置只保存在你的 iPhone 上，没有账号也没有服务器。删除 App 即可清除这些数据，删除单条限额
+			或更换主题同理。详见<a href="/sundial/privacy/">隐私政策</a>。
+		</p>
+
+		<h2 class="text-xl font-semibold">Requirements</h2>
+		<p>
+			iPhone with iOS 27 or later. Sundial is iPhone-only; it does not run on iPad, and it does not track other
+			devices or people.
+		</p>
+		<p class="text-gray-500 dark:text-gray-400">
+			需要 iOS 27 或更高版本的 iPhone。晷仅支持 iPhone，不支持 iPad，也不会监控其它设备或他人。
+		</p>
+	</div>
+</PageLayout>
