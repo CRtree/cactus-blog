@@ -10,6 +10,11 @@
 		"format": "prettier -w --cache . && prettier -w --cache **/*.astro",
 		"check": "astro check"
 	},
+	"pnpm": {
+		"overrides": {
+			"sitemap": "7.1.1"
+		}
+	},
 	"dependencies": {
 		"@astrojs/mdx": "2.2.4",
 		"@astrojs/rss": "4.0.5",
@@ -17,7 +22,7 @@
 		"@astrojs/tailwind": "5.1.0",
 		"astro": "4.8.2",
 		"astro-expressive-code": "^0.34.1",
-		"astro-icon": "^1.1.0",
+		"astro-icon": "1.1.0",
 		"rehype-external-links": "^3.0.0",
 		"satori": "0.10.13",
 		"satori-html": "^0.3.2",
