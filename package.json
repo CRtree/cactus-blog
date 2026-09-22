@@ -1,5 +1,5 @@
 {
-	"name": "cactus-blog",
+	"name": "samuel-website",
 	"version": "4.5.0",
 	"scripts": {
 		"dev": "astro dev",
