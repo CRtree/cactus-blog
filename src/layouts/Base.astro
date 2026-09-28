@@ -6,28 +6,40 @@ import SkipLink from "@/components/SkipLink.astro";
 import ThemeProvider from "@/components/ThemeProvider.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
+import { languages, type Lang } from "@/i18n/utils";
 import { siteConfig } from "@/site-config";
 
 interface Props {
+	/** Explicit href per language for hreflang + the language switcher. */
+	alternatePaths?: Partial<Record<Lang, string>>;
+	lang?: Lang;
 	meta: SiteMeta;
 }
 
+const { alternatePaths, lang = "en" } = Astro.props;
 const {
 	meta: { articleDate, description = siteConfig.description, ogImage, title },
 } = Astro.props;
 ---
 
-<html lang={siteConfig.lang}>
+<html lang={languages[lang].htmlLang}>
 	<head>
-		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+		<BaseHead
+			alternatePaths={alternatePaths}
+			articleDate={articleDate}
+			description={description}
+			lang={lang}
+			ogImage={ogImage}
+			title={title}
+		/>
 	</head>
 	<body>
 		<ThemeProvider />
-		<SkipLink />
-		<Header />
+		<SkipLink lang={lang} />
+		<Header alternatePaths={alternatePaths} lang={lang} />
 		<main id="main">
 			<slot />
 		</main>
-		<Footer />
+		<Footer lang={lang} />
 	</body>
 </html>

@@ -1,6 +1,15 @@
 ---
 import { Icon } from "astro-icon/components";
 
+import { useTranslations, type Lang } from "@/i18n/utils";
+
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+const t = useTranslations(lang);
+
 /** 
 	Uses https://www.astroicon.dev/getting-started/
 	Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
@@ -16,17 +25,18 @@ const socialLinks: {
 		friendlyName: "Github",
 		link: "https://github.com/CRtree",
 		name: "mdi:github",
-		isWebmention: true
-	},{
+		isWebmention: true,
+	},
+	{
 		friendlyName: "Twitter",
 		link: "https://twitter.com/samuel_zuo",
-		name: "mdi:twitter"
-	}
+		name: "mdi:twitter",
+	},
 ];
 ---
 
 <div class="flex flex-wrap items-end gap-x-2">
-	<p>Find me on</p>
+	<p>{t.social.findMeOn}</p>
 	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
 		{
 			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
@@ -44,7 +54,7 @@ const socialLinks: {
 			))
 		}
 	</ul>
-	, or email me at
+	, {t.social.orEmailMe}
 	<a class="inline-flex items-center gap-x-1 sm:hover:text-link" href="mailto:zuoxiaooo@icloud.com">
 		<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:email" />
 		<span><span>zuoxiaooo</span><span>@</span><span>icloud.com</span></span>

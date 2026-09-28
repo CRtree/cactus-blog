@@ -1,7 +1,19 @@
 ---
+import { localizePath, useTranslations, type Lang } from "@/i18n/utils";
 import { menuLinks, siteConfig } from "@/site-config";
 
+interface Props {
+	lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
+
+const navLinks = menuLinks.map((link) => ({
+	href: localizePath(link.path, lang),
+	title: t.nav[link.key],
+}));
 ---
 
 <footer
@@ -12,12 +24,12 @@ const year = new Date().getFullYear();
 		{year}.<span class="inline-block">&nbsp;🚀&nbsp;Astro Cactus</span>
 	</div>
 	<nav
-		aria-label="More on this site"
+		aria-label={t.footer.moreOnSite}
 		class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-gray-500"
 	>
 		{
-			menuLinks.map((link) => (
-				<a class="px-4 py-2 sm:py-0 sm:hover:text-textColor sm:hover:underline" href={link.path}>
+			navLinks.map((link) => (
+				<a class="px-4 py-2 sm:py-0 sm:hover:text-textColor sm:hover:underline" href={link.href}>
 					{link.title}
 				</a>
 			))

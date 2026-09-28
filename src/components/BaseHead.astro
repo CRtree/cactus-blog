@@ -1,13 +1,17 @@
 ---
 import type { SiteMeta } from "@/types";
 
+import { defaultLang, languages, type Lang } from "@/i18n/utils";
 import { siteConfig } from "@/site-config";
 
 import "../styles/global.css";
 
-type Props = SiteMeta;
+type Props = SiteMeta & {
+	alternatePaths?: Partial<Record<Lang, string>>;
+	lang?: Lang;
+};
 
-const { articleDate, description, ogImage, title } = Astro.props;
+const { articleDate, description, ogImage, title, alternatePaths, lang = "en" } = Astro.props;
 
 const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
@@ -26,6 +30,26 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
 <link href="/manifest.webmanifest" rel="manifest" />
 <link href={canonicalURL} rel="canonical" />
+{
+	alternatePaths && (
+		<>
+			{Object.entries(alternatePaths).map(([code, path]) => (
+				<link
+					href={new URL(path, Astro.site)}
+					hreflang={languages[code as Lang].htmlLang}
+					rel="alternate"
+				/>
+			))}
+			{alternatePaths[defaultLang] && (
+				<link
+					href={new URL(alternatePaths[defaultLang]!, Astro.site)}
+					hreflang="x-default"
+					rel="alternate"
+				/>
+			)}
+		</>
+	)
+}
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name="title" />
@@ -41,7 +65,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content={description} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
 <meta content={siteConfig.title} property="og:site_name" />
-<meta content={siteConfig.ogLocale} property="og:locale" />
+<meta content={languages[lang].ogLocale} property="og:locale" />
 <meta content={socialImageURL} property="og:image" />
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />

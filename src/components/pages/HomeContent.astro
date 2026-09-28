@@ -1,0 +1,79 @@
+---
+import SocialList from "@/components/SocialList.astro";
+import { localizePath, useTranslations, type Lang } from "@/i18n/utils";
+import PageLayout from "@/layouts/Base.astro";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Brand/app names are intentionally identical in every language; only the
+// descriptions come from the translations.
+const projectHrefs: Record<string, string> = {
+	Sundial: localizePath("/sundial/", lang),
+	"Youtube Scroll Saver":
+		"https://chromewebstore.google.com/detail/youtube-scroll-saver/plnjpjdjdomfkaendgfccokpbhbcomlo",
+	"Code Changes Summarizer": "https://plugins.jetbrains.com/plugin/23820-code-changes-summarizer",
+	"Analysis Logs with AI": "https://plugins.jetbrains.com/plugin/25059-analysis-logs-with-ai",
+	EnvVarTool: "https://github.com/CRtree/EnvVarTool",
+	"String Remove": "https://github.com/CRtree/String-remove",
+};
+
+const projects = t.home.projects.map((project) => ({
+	...project,
+	href: projectHrefs[project.title] ?? "#",
+}));
+
+const alternatePaths: Partial<Record<Lang, string>> = {
+	en: localizePath("/", "en"),
+	zh: localizePath("/", "zh"),
+};
+---
+
+<PageLayout
+	alternatePaths={alternatePaths}
+	lang={lang}
+	meta={{ description: t.home.description, title: t.home.title }}
+>
+	<div data-pagefind-body>
+		<section>
+			<h1 class="title mb-6">{t.home.hello}</h1>
+			<p class="mb-4">{t.home.intro}</p>
+			<SocialList lang={lang} />
+		</section>
+		<section class="mt-16">
+			<h2 class="title mb-4 text-xl">{t.home.buildApplications}</h2>
+			<ul class="divide-y divide-dashed divide-textColor/15">
+				{
+					projects.map(({ desc, href, title }) => {
+						const isExternal = href.startsWith("http");
+						return (
+							<li class="group relative flex items-start justify-between gap-4 py-4">
+								<div class="min-w-0">
+									<a
+										class="cactus-link font-semibold text-accent-2 after:absolute after:inset-0"
+										href={href}
+										rel={isExternal ? "noopener noreferrer" : undefined}
+										target={isExternal ? "_blank" : undefined}
+									>
+										{title}
+									</a>
+									<p class="mt-1 text-textColor/70">{desc}</p>
+								</div>
+								<span
+									aria-hidden="true"
+									class="mt-0.5 shrink-0 text-lg leading-none text-textColor/30 transition-colors group-hover:text-link"
+								>
+									{isExternal ? "↗" : "→"}
+								</span>
+							</li>
+						);
+					})
+				}
+			</ul>
+		</section>
+	</div>
+</PageLayout>

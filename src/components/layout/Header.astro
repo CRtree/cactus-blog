@@ -1,18 +1,32 @@
 ---
+import { localizePath, stripLocale, useTranslations, type Lang } from "@/i18n/utils";
 import { menuLinks } from "@/site-config";
 
 import Search from "../Search.astro";
 import ThemeToggle from "../ThemeToggle.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
 
-const url = new URL(Astro.request.url);
+interface Props {
+	alternatePaths?: Partial<Record<Lang, string>>;
+	lang?: Lang;
+}
+
+const { alternatePaths, lang = "en" } = Astro.props;
+const t = useTranslations(lang);
+const currentPath = stripLocale(Astro.url.pathname);
+const navLinks = menuLinks.map((link) => ({
+	href: localizePath(link.path, lang),
+	path: link.path,
+	title: t.nav[link.key],
+}));
 ---
 
 <header class="group relative mb-14 flex items-center sm:ps-[4.5rem]" id="main-header">
 	<div class="flex sm:flex-col">
 		<a
-			aria-current={url.pathname === "/" ? "page" : false}
+			aria-current={currentPath === "/" ? "page" : false}
 			class="inline-flex items-center grayscale hover:filter-none sm:relative sm:inline-block"
-			href="/"
+			href={localizePath("/", lang)}
 		>
 			<svg
 				aria-hidden="true"
@@ -22,7 +36,7 @@ const url = new URL(Astro.request.url);
 				viewBox="0 0 272 480"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<title>Logo</title>
+				<title>{t.header.logo}</title>
 				<path
 					d="M181.334 93.333v-40L226.667 80v40l-45.333-26.667ZM136.001 53.333 90.667 26.667v426.666L136.001 480V53.333Z"
 					fill="#B04304"></path>
@@ -37,17 +51,17 @@ const url = new URL(Astro.request.url);
 			<span class="text-xl font-bold sm:text-2xl">Samuel Zuo</span>
 		</a>
 		<nav
-			aria-label="Main menu"
+			aria-label={t.header.mainMenu}
 			class="absolute -inset-x-4 top-14 hidden flex-col items-end gap-y-4 rounded-md bg-bgColor/[.85] py-4 text-accent shadow backdrop-blur group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:items-center sm:divide-x sm:divide-dashed sm:divide-accent sm:rounded-none sm:bg-transparent sm:py-0 sm:shadow-none sm:backdrop-blur-none"
 			id="navigation-menu"
 		>
 			{
-				menuLinks.map((link) => (
+				navLinks.map((link) => (
 					<a
-						aria-current={url.pathname === link.path ? "page" : false}
+						aria-current={currentPath === link.path ? "page" : false}
 						class="px-4 py-4 underline-offset-2 sm:py-0 sm:hover:underline"
 						data-astro-prefetch
-						href={link.path}
+						href={link.href}
 					>
 						{link.title}
 					</a>
@@ -55,13 +69,18 @@ const url = new URL(Astro.request.url);
 			}
 		</nav>
 	</div>
-	<Search />
+	<Search lang={lang} />
+	{
+		alternatePaths && (
+			<LanguageSwitcher alternatePaths={alternatePaths} class="ms-2 sm:ms-4" lang={lang} />
+		)
+	}
 	<ThemeToggle />
 	<mobile-button>
 		<button
 			aria-expanded="false"
 			aria-haspopup="menu"
-			aria-label="Open main menu"
+			aria-label={t.header.toggleNav}
 			class="group relative ms-4 h-7 w-7 sm:invisible sm:hidden"
 			id="toggle-navigation-menu"
 			type="button"

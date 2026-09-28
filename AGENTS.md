@@ -67,6 +67,7 @@ src/
   components/            # UI, incl. layout/{Header,Footer}.astro, sundial/
   site.config.ts         # site metadata + menu links
   data/post.ts           # post query helpers
+  i18n/                  # en/zh dictionaries (ui.ts) + locale helpers (utils.ts)
   utils/                 # date, toc, webmentions, etc.
 public/                  # icons, manifest, robots.txt
 .github/workflows/ci.yml # CI: pnpm + astro check + build on master
@@ -83,6 +84,18 @@ Edit the `projects` array in `src/pages/index.astro`. Each entry is
 with `http` automatically get `target="_blank"` + `rel="noopener noreferrer"`.
 Prefer an official product/store page over a GitHub repo when the app has one
 (e.g. Youtube Scroll Saver → its Chrome Web Store listing).
+
+### Add or edit translations (en / zh)
+
+The site is bilingual: English is served from the root and Chinese from `/zh`.
+All copy lives in `src/i18n/ui.ts` (the `en` object is the source of truth; `zh`
+is typed against it, so a missing key fails `astro check`). Locale helpers
+(`useTranslations`, `localizePath`, `stripLocale`) live in
+`src/i18n/utils.ts`. The home and Sundial pages are rendered by shared
+components (`src/components/pages/HomeContent.astro`,
+`src/components/sundial/SundialLanding.astro`) with thin `en`/`zh` page
+wrappers under `src/pages/` and `src/pages/zh/`. **Do not translate brand/app
+names** (Sundial, Youtube Scroll Saver, Code Changes Summarizer, etc.).
 
 ### Add or edit a blog post
 

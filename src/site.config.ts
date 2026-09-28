@@ -1,3 +1,4 @@
+import type { Dict } from "@/i18n/ui";
 import type { SiteConfig } from "@/types";
 import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
 
@@ -29,11 +30,12 @@ export const siteConfig: SiteConfig = {
 	},
 };
 
-// Used to generate links in both the Header & Footer.
-export const menuLinks: { path: string; title: string }[] = [
+// Used to generate links in both the Header & Footer. `key` maps to a
+// translation in `src/i18n/ui.ts`; `path` is the locale-less route.
+export const menuLinks: { key: keyof Dict["nav"]; path: string }[] = [
 	{
+		key: "home",
 		path: "/",
-		title: "Home",
 	},
 ];
 

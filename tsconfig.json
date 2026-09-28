@@ -17,6 +17,12 @@
       "@/data/*": [
         "src/data/*"
       ],
+      "@/i18n": [
+        "src/i18n/utils.ts"
+      ],
+      "@/i18n/*": [
+        "src/i18n/*"
+      ],
       "@/layouts/*": [
         "src/layouts/*"
       ],

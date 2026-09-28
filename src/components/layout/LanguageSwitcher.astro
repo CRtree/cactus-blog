@@ -1,0 +1,49 @@
+---
+import { languages, localizePath, stripLocale, useTranslations, type Lang } from "@/i18n/utils";
+
+interface Props {
+	/** Explicit href per language. Defaults to swapping the locale on the current path. */
+	alternatePaths?: Partial<Record<Lang, string>>;
+	class?: string;
+	lang: Lang;
+}
+
+const { alternatePaths, class: className, lang } = Astro.props;
+
+const t = useTranslations(lang);
+const base = stripLocale(Astro.url.pathname);
+
+const entries = (Object.keys(languages) as Lang[]).map((code) => ({
+	code,
+	href: alternatePaths?.[code] ?? localizePath(base, code),
+	label: languages[code].label,
+	short: languages[code].short,
+}));
+---
+
+<nav
+	aria-label={t.languageSwitcher.aria}
+	class:list={[
+		"flex items-center gap-0.5 rounded-md border border-gray-300/70 p-0.5 text-xs dark:border-gray-600/70",
+		className,
+	]}
+>
+	{
+		entries.map((entry) =>
+			entry.code === lang ? (
+				<span aria-current="true" class="rounded px-1.5 py-0.5 font-semibold text-accent-2">
+					{entry.short}
+				</span>
+			) : (
+				<a
+					class="rounded px-1.5 py-0.5 text-gray-500 transition-colors hover:text-link dark:text-gray-400"
+					href={entry.href}
+					hreflang={languages[entry.code].htmlLang}
+					title={entry.label}
+				>
+					{entry.short}
+				</a>
+			),
+		)
+	}
+</nav>
