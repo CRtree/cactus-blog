@@ -25,7 +25,7 @@ const navLinks = menuLinks.map((link) => ({
 	<div class="flex sm:flex-col">
 		<a
 			aria-current={currentPath === "/" ? "page" : false}
-			class="inline-flex items-center grayscale hover:filter-none sm:relative sm:inline-block"
+			class="inline-flex items-center sm:relative sm:inline-block"
 			href={localizePath("/", lang)}
 		>
 			<svg
@@ -48,7 +48,7 @@ const navLinks = menuLinks.map((link) => ({
 					fill="#53C68C"></path>
 				<path d="M45.334 240 0 213.334v120L45.334 360V240Z" fill="#B04304"></path>
 			</svg>
-			<span class="text-xl font-bold sm:text-2xl">Samuel Zuo</span>
+			<span class="whitespace-nowrap text-xl font-bold sm:text-2xl">Samuel Zuo</span>
 		</a>
 		<nav
 			aria-label={t.header.mainMenu}
@@ -67,12 +67,25 @@ const navLinks = menuLinks.map((link) => ({
 					</a>
 				))
 			}
+			{
+				alternatePaths && (
+					<LanguageSwitcher
+						alternatePaths={alternatePaths}
+						class="me-4 p-1 sm:hidden"
+						lang={lang}
+					/>
+				)
+			}
 		</nav>
 	</div>
 	<Search lang={lang} />
 	{
 		alternatePaths && (
-			<LanguageSwitcher alternatePaths={alternatePaths} class="ms-2 sm:ms-4" lang={lang} />
+			<LanguageSwitcher
+				alternatePaths={alternatePaths}
+				class="ms-2 hidden sm:ms-4 sm:flex"
+				lang={lang}
+			/>
 		)
 	}
 	<ThemeToggle />

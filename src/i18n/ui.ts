@@ -25,7 +25,8 @@ const en = {
 	},
 	social: {
 		findMeOn: "Find me on",
-		orEmailMe: "or email me at",
+		copyEmail: "Copy email address",
+		emailCopied: "Email address copied",
 	},
 	languageSwitcher: {
 		aria: "Language",
@@ -202,7 +203,8 @@ const zh: Dict = {
 	},
 	social: {
 		findMeOn: "在这些平台找到我",
-		orEmailMe: "或发邮件到",
+		copyEmail: "复制邮箱地址",
+		emailCopied: "已复制邮箱地址",
 	},
 	languageSwitcher: {
 		aria: "语言",

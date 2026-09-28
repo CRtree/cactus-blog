@@ -22,41 +22,123 @@ const socialLinks: {
 	name: string;
 }[] = [
 	{
-		friendlyName: "Github",
+		friendlyName: "GitHub",
 		link: "https://github.com/CRtree",
 		name: "mdi:github",
 		isWebmention: true,
 	},
 	{
-		friendlyName: "Twitter",
+		friendlyName: "X(Twitter)",
 		link: "https://twitter.com/samuel_zuo",
 		name: "mdi:twitter",
 	},
 ];
+
+const email = "zuoxiaooo@icloud.com";
+
+const chipClass =
+	"inline-flex items-center gap-2 rounded-full border border-textColor/15 px-3 py-1.5 text-sm font-medium text-textColor/75 transition-colors hover:border-link hover:text-link dark:border-textColor/20";
 ---
 
-<div class="flex flex-wrap items-end gap-x-2">
-	<p>{t.social.findMeOn}</p>
-	<ul class="flex flex-1 items-center gap-x-2 sm:flex-initial">
+<div>
+	<p class="mb-3 text-sm text-textColor/60">{t.social.findMeOn}</p>
+	<ul class="flex flex-wrap items-center gap-2">
 		{
 			socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
-				<li class="flex">
+				<li>
 					<a
-						class="inline-block p-1 sm:hover:text-link"
+						class={chipClass}
 						href={link}
 						rel={`noopener noreferrer ${isWebmention ? "me authn" : ""}`}
 						target="_blank"
 					>
-						<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name={name} />
-						<span class="sr-only">{friendlyName}</span>
+						<Icon aria-hidden="true" class="h-4 w-4" focusable="false" name={name} />
+						<span>{friendlyName}</span>
 					</a>
 				</li>
 			))
 		}
+		<li class="relative">
+			<div
+				class="inline-flex items-stretch overflow-hidden rounded-full border border-textColor/15 text-sm font-medium text-textColor/75 dark:border-textColor/20"
+			>
+				<a
+					class="inline-flex items-center gap-2 py-1.5 pe-2.5 ps-3 transition-colors hover:text-link"
+					href={`mailto:${email}`}
+				>
+					<Icon aria-hidden="true" class="h-4 w-4" focusable="false" name="mdi:email" />
+					<span><span>zuoxiaooo</span><span>@</span><span>icloud.com</span></span>
+				</a>
+				<button
+					aria-label={t.social.copyEmail}
+					class="inline-flex items-center border-s border-textColor/15 px-2.5 text-textColor/55 transition-colors hover:bg-textColor/5 hover:text-link dark:border-textColor/20"
+					data-copied-message={t.social.emailCopied}
+					data-copy-email={email}
+					title={t.social.copyEmail}
+					type="button"
+				>
+					<Icon
+						aria-hidden="true"
+						class="copy-email__copy h-4 w-4"
+						focusable="false"
+						name="mdi:content-copy"
+					/>
+					<Icon
+						aria-hidden="true"
+						class="copy-email__done hidden h-4 w-4 text-green-600 dark:text-green-400"
+						focusable="false"
+						name="mdi:check"
+					/>
+				</button>
+			</div>
+			<span class="copy-email__status sr-only" role="status"></span>
+		</li>
 	</ul>
-	, {t.social.orEmailMe}
-	<a class="inline-flex items-center gap-x-1 sm:hover:text-link" href="mailto:zuoxiaooo@icloud.com">
-		<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:email" />
-		<span><span>zuoxiaooo</span><span>@</span><span>icloud.com</span></span>
-	</a>
 </div>
+
+<script>
+	const buttons = document.querySelectorAll<HTMLButtonElement>("[data-copy-email]");
+
+	const copyText = async (value: string) => {
+		try {
+			await navigator.clipboard.writeText(value);
+			return true;
+		} catch {
+			try {
+				const textarea = document.createElement("textarea");
+				textarea.value = value;
+				textarea.setAttribute("readonly", "");
+				textarea.style.position = "fixed";
+				textarea.style.opacity = "0";
+				document.body.appendChild(textarea);
+				textarea.select();
+				const ok = document.execCommand("copy");
+				document.body.removeChild(textarea);
+				return ok;
+			} catch {
+				return false;
+			}
+		}
+	};
+
+	buttons.forEach((button) => {
+		const value = button.dataset.copyEmail ?? "";
+		const copyIcon = button.querySelector(".copy-email__copy");
+		const doneIcon = button.querySelector(".copy-email__done");
+		const status = button.closest("li")?.querySelector(".copy-email__status");
+		let timer: number | undefined;
+
+		button.addEventListener("click", async () => {
+			if (!(await copyText(value))) return;
+			copyIcon?.classList.add("hidden");
+			doneIcon?.classList.remove("hidden");
+			if (status) status.textContent = button.dataset.copiedMessage ?? "Copied";
+			window.clearTimeout(timer);
+			timer = window.setTimeout(() => {
+				copyIcon?.classList.remove("hidden");
+				doneIcon?.classList.add("hidden");
+				if (status) status.textContent = "";
+			}, 2000);
+		});
+	});
+</script>

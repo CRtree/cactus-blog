@@ -21,8 +21,9 @@ const entries = (Object.keys(languages) as Lang[]).map((code) => ({
 }));
 ---
 
-<nav
+<div
 	aria-label={t.languageSwitcher.aria}
+	role="group"
 	class:list={[
 		"flex items-center gap-0.5 rounded-md border border-gray-300/70 p-0.5 text-xs dark:border-gray-600/70",
 		className,
@@ -46,4 +47,4 @@ const entries = (Object.keys(languages) as Lang[]).map((code) => ({
 			),
 		)
 	}
-</nav>
+</div>
