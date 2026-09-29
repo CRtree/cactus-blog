@@ -71,7 +71,7 @@ const en = {
 	sundial: {
 		title: "Sundial",
 		description:
-			"Sundial (晷) is a screen time app for iPhone — daily app limits that actually shield, a block that says why, and a year of history in one heatmap.",
+			"Sundial (晷) is a screen time app for iPhone — daily app limits that actually shield, a block that says why, and 30 days of history in one heatmap.",
 		brandSub: "Screen time for iPhone",
 		heroTitle: "A limit should feel like a sundial, not a stopwatch.",
 		lede: "Give the apps that eat your day a daily allowance. When the time runs out, iOS blocks the app itself — and the shield repeats the reason you set.",
@@ -117,14 +117,14 @@ const en = {
 				id: "history",
 				index: "03",
 				eyebrow: "History",
-				title: "A year in one heatmap",
-				body: "A whole year of days in one heatmap, shaded by how much you used. Open any day for the detail: which apps, which categories, and how they compare with your limits.",
+				title: "30 days in one heatmap",
+				body: "The last 30 days in one heatmap, shaded by how much you used. Open any day for the detail: which apps, which categories, and how they compare with your limits.",
 				bullets: [
-					"A year at a glance",
+					"30 days at a glance",
 					"Per-day app and category detail",
 					"Each day against its limits",
 				],
-				alt: "Sundial's History tab: a year of days as a warm heatmap, with one day opened to show apps, categories and total time.",
+				alt: "Sundial's History tab: 30 days as a warm heatmap, with one day opened to show apps, categories and total time.",
 			},
 			{
 				id: "setup",
@@ -174,7 +174,7 @@ const en = {
 		},
 		final: {
 			title: "Put the phone down on time.",
-			meta: "Requires the Screen Time permission (Settings → Screen Time → Sundial). iPhone, iOS 27 or later.",
+			meta: "Requires the Screen Time permission (Settings → Screen Time → Sundial). iPhone, iOS 18.5 or later.",
 		},
 		footLinks: {
 			support: "Support",
@@ -248,7 +248,7 @@ const zh: Dict = {
 	sundial: {
 		title: "Sundial",
 		description:
-			"Sundial（晷）是一款 iPhone 屏幕时间应用——真正能屏蔽的每日 App 限额、会说明理由的拦截页，以及用一张热力图回顾一整年。",
+			"Sundial（晷）是一款 iPhone 屏幕时间应用——真正能屏蔽的每日 App 限额、会说明理由的拦截页，以及用一张热力图回顾最近 30 天。",
 		brandSub: "iPhone 屏幕时间应用",
 		heroTitle: "限额应该像日晷，而不是秒表。",
 		lede: "给那些偷走你一天的 App 设定每日额度。用完之后，iOS 会直接屏蔽 App 本身，拦截页会重申你当初设定的理由。",
@@ -285,10 +285,10 @@ const zh: Dict = {
 				id: "history",
 				index: "03",
 				eyebrow: "历史",
-				title: "一张热力图，一整年",
-				body: "用一张热力图呈现一整年的每一天，颜色深浅代表用时多少。展开任意一天查看细节：哪些 App、哪些类别，以及与限额的对比。",
-				bullets: ["一整年一眼看完", "按天查看 App 与类别明细", "每天与限额的对比"],
-				alt: "Sundial 的「历史」标签页：以温暖的热力图展示一整年的每一天，展开某一天可见 App、类别与总用时。",
+				title: "一张热力图，30 天",
+				body: "用一张热力图呈现最近 30 天的每一天，颜色深浅代表用时多少。展开任意一天查看细节：哪些 App、哪些类别，以及与限额的对比。",
+				bullets: ["30 天一眼看完", "按天查看 App 与类别明细", "每天与限额的对比"],
+				alt: "Sundial 的「历史」标签页：以温暖的热力图展示最近 30 天的每一天，展开某一天可见 App、类别与总用时。",
 			},
 			{
 				id: "setup",
@@ -334,7 +334,7 @@ const zh: Dict = {
 		},
 		final: {
 			title: "准时把手机放下。",
-			meta: "需要「屏幕时间」权限（设置 → 屏幕时间 → Sundial）。iPhone，iOS 27 或更高版本。",
+			meta: "需要「屏幕时间」权限（设置 → 屏幕时间 → Sundial）。iPhone，iOS 18.5 或更高版本。",
 		},
 		footLinks: {
 			support: "支持",
