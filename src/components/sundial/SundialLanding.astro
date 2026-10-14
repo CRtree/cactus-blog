@@ -21,9 +21,15 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Paste the App Store link here once Sundial is live. While it is empty the page
-// shows an honest "coming soon" badge instead of a dead link.
-const appStoreUrl = "https://apps.apple.com/us/app/sundial-daily-app-limits/id6803024604";
+// The app is distributed worldwide, so each visitor must be sent to *their own*
+// storefront. Apple's web storefront 302-redirects a hard-coded storefront link
+// (e.g. /us/) to the visitor's own storefront root when they are outside that
+// region — dropping the app and landing on `/xx/iphone/today`. Below is the
+// no-JS default (matching the page locale); the script at the bottom rewrites
+// it to the visitor's actual storefront on load. The slug is cosmetic — Apple
+// resolves purely by id — so a slug-less `/app/id…` link is enough.
+const appStoreId = "6803024604";
+const appStoreUrl = `https://apps.apple.com/${lang === "zh" ? "cn" : "us"}/app/id${appStoreId}`;
 
 const featureImages: Record<string, ImageMetadata> = {
 	history: screenHistory,
@@ -39,6 +45,11 @@ const features = t.sundial.features.map((feature) => ({
 
 const meta = {
 	description: t.sundial.description,
+	ogImage: lang === "zh" ? "/og/sundial-zh.png" : "/og/sundial-en.png",
+	ogImageAlt:
+		lang === "zh"
+			? "Sundial 应用图标、标语「限额应该像日晷，而不是秒表。」，以及显示「今天」页面的 iPhone。"
+			: "The Sundial app icon, the line 'A limit should feel like a sundial.', and an iPhone showing the Today screen with an ink-wash landscape.",
 	title: t.sundial.title,
 };
 
@@ -255,6 +266,46 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 			{ rootMargin: "0px 0px -8% 0px", threshold: 0.15 },
 		);
 		reveals.forEach((el) => observer.observe(el));
+	}
+</script>
+
+<script>
+	// Point the App Store buttons at the visitor's own storefront. Apple drops the
+	// app when the link's storefront does not match the visitor's region, so a
+	// single hard-coded country code cannot work worldwide.
+	const APP_STORE_ID = "6803024604";
+	const chinaTimeZones = /^Asia\/(Shanghai|Urumqi|Chongqing|Harbin)$/;
+	const appStoreLinks = document.querySelectorAll("a.sd-appstore");
+
+	if (appStoreLinks.length > 0) {
+		let country = "";
+
+		// Timezone is the strongest signal for mainland China, even when the
+		// browser UI is set to English.
+		try {
+			const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+			if (chinaTimeZones.test(timeZone)) country = "cn";
+		} catch {
+			// Intl unavailable — fall through to the locale check.
+		}
+
+		if (!country) {
+			const tags = Array.from(navigator.languages || [navigator.language || ""]);
+			for (const tag of tags) {
+				const region = /[-_]([A-Za-z]{2})\b/.exec(tag);
+				if (region) {
+					country = region[1].toLowerCase();
+					break;
+				}
+			}
+		}
+
+		if (country) {
+			const url = `https://apps.apple.com/${country}/app/id${APP_STORE_ID}`;
+			for (const link of appStoreLinks) {
+				if (link instanceof HTMLAnchorElement) link.href = url;
+			}
+		}
 	}
 </script>
 

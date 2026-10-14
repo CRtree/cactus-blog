@@ -18,7 +18,7 @@ interface Props {
 
 const { alternatePaths, lang = "en" } = Astro.props;
 const {
-	meta: { articleDate, description = siteConfig.description, ogImage, title },
+	meta: { articleDate, description = siteConfig.description, ogImage, ogImageAlt, title },
 } = Astro.props;
 ---
 
@@ -30,6 +30,7 @@ const {
 			description={description}
 			lang={lang}
 			ogImage={ogImage}
+			ogImageAlt={ogImageAlt}
 			title={title}
 		/>
 	</head>

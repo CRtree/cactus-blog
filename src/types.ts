@@ -25,6 +25,7 @@ export interface SiteMeta {
 	articleDate?: string | undefined;
 	description?: string;
 	ogImage?: string | undefined;
+	ogImageAlt?: string | undefined;
 	title: string;
 }
 

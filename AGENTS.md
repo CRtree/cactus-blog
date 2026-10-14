@@ -69,7 +69,8 @@ src/
   data/post.ts           # post query helpers
   i18n/                  # en/zh dictionaries (ui.ts) + locale helpers (utils.ts)
   utils/                 # date, toc, webmentions, etc.
-public/                  # icons, manifest, robots.txt
+public/                  # icons, manifest, robots.txt, og/ social cards
+scripts/                 # asset generators (not run by the build)
 .github/workflows/ci.yml # CI: pnpm + astro check + build on master
 ```
 
@@ -107,7 +108,23 @@ production. Note the blog is currently hidden from nav and sitemap.
 ### Edit Sundial pages
 
 `src/pages/sundial/{index,privacy,support}.astro`. Screenshots live in
-`src/assets/sundial/`.
+`src/assets/sundial/`. The app icon is `src/assets/sundial/icon.webp` — refresh
+it from the Xcode project's `AppIcon.appiconset/AppIcon.png` when it changes.
+
+### Regenerate the Sundial social / OG cards
+
+The link preview shown when someone pastes `/sundial/` into X, Slack, iMessage,
+etc. comes from the `<meta>` tags in `BaseHead.astro` (`twitter:card`,
+`twitter:image`, `og:image`). The 1200×630 artwork in `public/og/` points those
+tags at Sundial-specific cards. They are generated (and committed) by:
+
+```bash
+python3 scripts/generate-sundial-og.py   # needs Pillow + numpy + macOS fonts
+```
+
+Edit `CONTENT` in that script to change the copy, then re-run. `SundialLanding`
+picks `sundial-en.png`/`sundial-zh.png` by locale; wire any new card into a
+page via the `ogImage`/`ogImageAlt` fields on its `meta` object.
 
 ## Deployment
 
