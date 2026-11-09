@@ -1,5 +1,5 @@
 ---
-import { localizePath, stripLocale, useTranslations, type Lang } from "@/i18n/utils";
+import { localizeHome, localizePath, stripLocale, useTranslations, type Lang } from "@/i18n/utils";
 import { menuLinks } from "@/site-config";
 
 import Search from "../Search.astro";
@@ -15,7 +15,7 @@ const { alternatePaths, lang = "en" } = Astro.props;
 const t = useTranslations(lang);
 const currentPath = stripLocale(Astro.url.pathname);
 const navLinks = menuLinks.map((link) => ({
-	href: localizePath(link.path, lang),
+	href: link.path === "/" ? localizeHome(lang) : localizePath(link.path, lang),
 	path: link.path,
 	title: t.nav[link.key],
 }));
@@ -26,7 +26,7 @@ const navLinks = menuLinks.map((link) => ({
 		<a
 			aria-current={currentPath === "/" ? "page" : false}
 			class="inline-flex items-center sm:relative sm:inline-block"
-			href={localizePath("/", lang)}
+			href={localizeHome(lang)}
 		>
 			<svg
 				aria-hidden="true"

@@ -13,7 +13,14 @@ const { alternatePaths, class: className, lang } = Astro.props;
 const t = useTranslations(lang);
 const base = stripLocale(Astro.url.pathname);
 
-const entries = (Object.keys(languages) as Lang[]).map((code) => ({
+// A locale may exist for only some pages (Japanese currently ships only on
+// the Sundial product page). When a page supplies explicit alternates, show
+// just those; otherwise fall back to swapping the locale on the current path.
+const codes = (Object.keys(languages) as Lang[]).filter(
+	(code) => !alternatePaths || alternatePaths[code] !== undefined,
+);
+
+const entries = codes.map((code) => ({
 	code,
 	href: alternatePaths?.[code] ?? localizePath(base, code),
 	label: languages[code].label,

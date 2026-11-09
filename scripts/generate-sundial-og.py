@@ -55,19 +55,28 @@ CONTENT = {
     "en": {
         "headline": ["A limit should feel", "like a sundial."],
         "desc": [
-            "Daily app limits that shield, a reason that stays,",
-            "and 30 days of history in one heatmap.",
+            "Daily limits with active hours, a shield that says why,",
+            "pickups, and 30 days of history in one heatmap.",
         ],
-        "sub": "SCREEN TIME FOR iPHONE",
+        "sub": "SCREEN TIME FOR iPHONE & iPAD",
         "headline_latin": True,
+    },
+    "ja": {
+        "headline": ["今日を、", "一枚の絵に。"],
+        "desc": [
+            "スクリーンタイムとピックアップ、",
+            "30日間の履歴をひと目で。",
+        ],
+        "sub": "IPHONE と IPAD のスクリーンタイム",
+        "headline_latin": False,
     },
     "zh": {
         "headline": ["限额应该像日晷，", "而不是秒表。"],
         "desc": [
-            "为 iPhone 打造的每日 App 限额——真正能屏蔽、",
-            "会说明理由，还有 30 天历史。",
+            "带生效时段的每日 App 限额、会说明理由的拦截、",
+            "拿起次数，以及 30 天历史热力图。",
         ],
-        "sub": "IPHONE 屏幕时间应用",
+        "sub": "IPHONE 与 IPAD 屏幕时间应用",
         "headline_latin": False,
     },
 }
@@ -123,9 +132,9 @@ def cover_resize(img, box_w, box_h):
     return img.crop((left, top, left + box_w, top + box_h))
 
 
-def build_phone():
-    """Return an RGBA phone mockup showing the Today screen, rotated slightly."""
-    screen = Image.open(ASSETS / "screen-today.webp").convert("RGB")
+def build_phone(locale: str):
+    """Return an RGBA phone mockup showing the locale's Today screen, rotated slightly."""
+    screen = Image.open(ASSETS / f"screen-today-{locale}.webp").convert("RGB")
 
     sw, sh = 232 * SS, 503 * SS  # screen size
     bezel = 11 * SS
@@ -169,7 +178,7 @@ def compose(locale: str) -> Image.Image:
     canvas = Image.fromarray(np.clip(base, 0, 255).astype(np.uint8), "RGBA")
 
     # ---- phone mockup (right side) -------------------------------------
-    phone = build_phone()
+    phone = build_phone(locale)
     px = 1130 * SS - phone.width
     py = (H * SS - phone.height) // 2
     cx, cy = px + phone.width // 2, py + phone.height // 2

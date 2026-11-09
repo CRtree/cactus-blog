@@ -4,15 +4,28 @@ import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 
 import Device from "@/components/sundial/Device.astro";
-import { localizePath, useTranslations, type Lang } from "@/i18n/utils";
+import { localizeHome, localizePath, useTranslations, type Lang } from "@/i18n/utils";
 import PageLayout from "@/layouts/Base.astro";
 
 import icon from "@/assets/sundial/icon.webp";
-import screenHistory from "@/assets/sundial/screen-history.webp";
-import screenLimits from "@/assets/sundial/screen-limits.webp";
-import screenNewLimit from "@/assets/sundial/screen-new-limit.webp";
-import screenShield from "@/assets/sundial/screen-shield.webp";
-import screenToday from "@/assets/sundial/screen-today.webp";
+import screenHistoryEn from "@/assets/sundial/screen-history-en.webp";
+import screenHistoryJa from "@/assets/sundial/screen-history-ja.webp";
+import screenHistoryZh from "@/assets/sundial/screen-history-zh.webp";
+import screenLimitsEn from "@/assets/sundial/screen-limits-en.webp";
+import screenLimitsJa from "@/assets/sundial/screen-limits-ja.webp";
+import screenLimitsZh from "@/assets/sundial/screen-limits-zh.webp";
+import screenNewLimitEn from "@/assets/sundial/screen-new-limit-en.webp";
+import screenNewLimitJa from "@/assets/sundial/screen-new-limit-ja.webp";
+import screenNewLimitZh from "@/assets/sundial/screen-new-limit-zh.webp";
+import screenSettingsEn from "@/assets/sundial/screen-settings-en.webp";
+import screenSettingsJa from "@/assets/sundial/screen-settings-ja.webp";
+import screenSettingsZh from "@/assets/sundial/screen-settings-zh.webp";
+import screenShieldEn from "@/assets/sundial/screen-shield-en.webp";
+import screenShieldJa from "@/assets/sundial/screen-shield-ja.webp";
+import screenShieldZh from "@/assets/sundial/screen-shield-zh.webp";
+import screenTodayEn from "@/assets/sundial/screen-today-en.webp";
+import screenTodayJa from "@/assets/sundial/screen-today-ja.webp";
+import screenTodayZh from "@/assets/sundial/screen-today-zh.webp";
 
 interface Props {
 	lang: Lang;
@@ -29,13 +42,43 @@ const t = useTranslations(lang);
 // it to the visitor's actual storefront on load. The slug is cosmetic — Apple
 // resolves purely by id — so a slug-less `/app/id…` link is enough.
 const appStoreId = "6803024604";
-const appStoreUrl = `https://apps.apple.com/${lang === "zh" ? "cn" : "us"}/app/id${appStoreId}`;
+const storefronts: Record<Lang, string> = { en: "us", ja: "jp", zh: "cn" };
+const appStoreUrl = `https://apps.apple.com/${storefronts[lang]}/app/id${appStoreId}`;
+
+const screens: Record<Lang, Record<string, ImageMetadata>> = {
+	en: {
+		history: screenHistoryEn,
+		limits: screenLimitsEn,
+		"new-limit": screenNewLimitEn,
+		settings: screenSettingsEn,
+		shield: screenShieldEn,
+		today: screenTodayEn,
+	},
+	zh: {
+		history: screenHistoryZh,
+		limits: screenLimitsZh,
+		"new-limit": screenNewLimitZh,
+		settings: screenSettingsZh,
+		shield: screenShieldZh,
+		today: screenTodayZh,
+	},
+	ja: {
+		history: screenHistoryJa,
+		limits: screenLimitsJa,
+		"new-limit": screenNewLimitJa,
+		settings: screenSettingsJa,
+		shield: screenShieldJa,
+		today: screenTodayJa,
+	},
+};
+
+const screenSet = screens[lang];
 
 const featureImages: Record<string, ImageMetadata> = {
-	history: screenHistory,
-	limits: screenLimits,
-	setup: screenNewLimit,
-	shield: screenShield,
+	history: screenSet.history,
+	hours: screenSet["new-limit"],
+	limits: screenSet.limits,
+	shield: screenSet.shield,
 };
 
 const features = t.sundial.features.map((feature) => ({
@@ -45,16 +88,18 @@ const features = t.sundial.features.map((feature) => ({
 
 const meta = {
 	description: t.sundial.description,
-	ogImage: lang === "zh" ? "/og/sundial-zh.png" : "/og/sundial-en.png",
-	ogImageAlt:
-		lang === "zh"
-			? "Sundial 应用图标、标语「限额应该像日晷，而不是秒表。」，以及显示「今天」页面的 iPhone。"
-			: "The Sundial app icon, the line 'A limit should feel like a sundial.', and an iPhone showing the Today screen with an ink-wash landscape.",
+	ogImage: `/og/sundial-${lang}.png`,
+	ogImageAlt: {
+		en: "The Sundial app icon, the line 'A limit should feel like a sundial.', and an iPhone showing today's screen time, pickups and an ink-wash landscape.",
+		ja: "Sundial のアプリアイコン、キャッチコピー「今日を、一枚の絵に。」、今日のスクリーンタイムとピックアップを表示する iPhone。",
+		zh: "Sundial 应用图标、标语「限额应该像日晷，而不是秒表。」，以及显示「今天」页面的 iPhone。",
+	}[lang],
 	title: t.sundial.title,
 };
 
 const alternatePaths: Partial<Record<Lang, string>> = {
 	en: localizePath("/sundial/", "en"),
+	ja: localizePath("/sundial/", "ja"),
 	zh: localizePath("/sundial/", "zh"),
 };
 ---
@@ -114,12 +159,12 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 						alt={t.sundial.heroAlt}
 						priority
 						sizes="(min-width: 640px) 320px, 80vw"
-						src={screenToday}
+						src={screenSet.today}
 						widths={[320, 480, 700, 980]}
 					/>
 					<div aria-hidden="true" class="sd-chip">
 						<span class="sd-chip-label">{t.sundial.chipLabel}</span>
-						<strong class="sd-chip-value">4h 38m</strong>
+						<strong class="sd-chip-value">{t.sundial.chipValue}</strong>
 						<span class="sd-chip-bar"><i></i></span>
 					</div>
 				</div>
@@ -158,6 +203,39 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 					</article>
 				))
 			}
+		</section>
+
+		<!-- Make it yours -->
+		<section class="sd-themes" data-reveal>
+			<div class="sd-themes-copy">
+				<p class="sd-feature-index">
+					<span>{t.sundial.themes.index}</span>
+					{t.sundial.themes.eyebrow}
+				</p>
+				<h2 class="sd-h2">{t.sundial.themes.title}</h2>
+				<p class="sd-body">{t.sundial.themes.body}</p>
+				<ul class="sd-list">
+					{t.sundial.themes.bullets.map((bullet) => <li>{bullet}</li>)}
+				</ul>
+				<div aria-hidden="true" class="sd-swatches">
+					<span style="--sw: #c2552a"></span>
+					<span style="--sw: #b93b31"></span>
+					<span style="--sw: #c02a74"></span>
+					<span style="--sw: #c68a06"></span>
+					<span style="--sw: #2f5bc4"></span>
+					<span style="--sw: #6a35c9"></span>
+					<span class="sd-swatch--custom"></span>
+				</div>
+			</div>
+			<div class="sd-themes-device">
+				<Device
+					alt={t.sundial.themes.alt}
+					sizes="(min-width: 640px) 420px, 88vw"
+					src={screenSet.settings}
+					variant="pad"
+					widths={[420, 620, 900, 1200]}
+				/>
+			</div>
 		</section>
 
 		<!-- Also built in -->
@@ -240,7 +318,7 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 					<span aria-hidden="true">·</span>
 					<a href="/sundial/privacy/">{t.sundial.footLinks.privacy}</a>
 					<span aria-hidden="true">·</span>
-					<a href={localizePath("/", lang)}>{t.sundial.footLinks.more}</a>
+					<a href={localizeHome(lang)}>{t.sundial.footLinks.more}</a>
 				</nav>
 			</div>
 		</section>
@@ -706,6 +784,55 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 		content: "";
 	}
 
+	/* ------------------------------------------------------------------ themes */
+	.sd-themes {
+		display: grid;
+		gap: 2.25rem;
+		align-items: center;
+		margin-top: 5rem;
+	}
+
+	.sd-themes-copy .sd-h2 {
+		margin-top: 0.85rem;
+	}
+
+	.sd-themes-device {
+		display: flex;
+		justify-content: center;
+	}
+
+	.sd-themes-device :global(.sd-device) {
+		width: min(100%, 25rem);
+	}
+
+	.sd-swatches {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+		margin-top: 1.6rem;
+	}
+
+	.sd-swatches span {
+		width: 1.65rem;
+		height: 1.65rem;
+		border-radius: 999px;
+		background: var(--sw);
+		box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.14);
+	}
+
+	.sd-swatches .sd-swatch--custom {
+		background: conic-gradient(
+			#e0503c,
+			#e0a53c,
+			#a8c04a,
+			#3fae9b,
+			#3f6fc4,
+			#8a4ec4,
+			#c04a8a,
+			#e0503c
+		);
+	}
+
 	/* ----------------------------------------------------------------- extras */
 	.sd-extras {
 		margin-top: 5rem;
@@ -864,6 +991,20 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 	}
 
 	/* -------------------------------------------------------------- responsive */
+	/* Japanese sets differently: the same point size holds more meaning per
+	   line, and default CJK wrapping can split a katakana word (ストップ /
+	   ウォッチ). Headings step down a little and — where the browser supports
+	   it — break on phrase boundaries instead. */
+	:global(html[lang="ja"]) .sd-hero .sd-display {
+		font-size: clamp(1.5rem, 5vw, 2.25rem);
+		word-break: auto-phrase;
+	}
+
+	:global(html[lang="ja"]) .sd-h2 {
+		font-size: clamp(1.45rem, 3.8vw, 1.85rem);
+		word-break: auto-phrase;
+	}
+
 	@media (min-width: 640px) {
 		.sd-hero-inner {
 			grid-template-columns: 1.05fr 0.95fr;
@@ -892,6 +1033,11 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 			gap: 1rem;
 		}
 
+		.sd-themes {
+			grid-template-columns: 1fr 1fr;
+			gap: 3rem;
+		}
+
 		.sd-pro {
 			grid-template-columns: 1.15fr 0.85fr;
 			gap: 2.5rem;
@@ -904,6 +1050,15 @@ const alternatePaths: Partial<Record<Lang, string>> = {
 			opacity: 1;
 			transform: none;
 			transition: none;
+		}
+	}
+
+	@media (max-width: 639px) {
+		/* The iPad screenshot is a tall portrait frame whose lower half is
+		   just ink-wash ground; at phone width it would spend ~1,000 px on
+		   empty paper. The palette discs carry the section instead. */
+		.sd-themes-device {
+			display: none;
 		}
 	}
 </style>

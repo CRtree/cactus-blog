@@ -4,7 +4,7 @@ import PageLayout from "@/layouts/Base.astro";
 const meta = {
 	title: "Sundial Support",
 	description:
-		"Support for Sundial (晷), the screen time app for iPhone — permissions, limits, widgets, purchases and data.",
+		"Support for Sundial (晷), the screen time app for iPhone and iPad — permissions, limits, active hours, widgets, purchases and data.",
 	ogImage: "/og/sundial-en.png",
 	ogImageAlt:
 		"The Sundial app icon, the line 'A limit should feel like a sundial.', and an iPhone showing the Today screen with an ink-wash landscape.",
@@ -18,7 +18,7 @@ const meta = {
 		</p>
 		<h1 class="title">Sundial — Support</h1>
 		<p class="text-gray-500 dark:text-gray-400">
-			Help for Sundial (晷), the screen time app for iPhone.
+			Help for Sundial (晷), the screen time app for iPhone and iPad.
 		</p>
 
 		<div class="rounded-lg border border-gray-200 p-5 dark:border-gray-700">
@@ -53,7 +53,7 @@ const meta = {
 		<p>
 			If <em>Share Across Devices</em> is on, Apple includes usage from other devices signed in to the
 			same Apple ID — a Mac, for example — in the activity Sundial's monitor receives, and Apple gives
-			apps no way to scope that to one device. The daily report inside the app is limited to this iPhone.
+			apps no way to scope that to one device. The daily report inside the app is limited to this device.
 			To make the two agree, turn <em>Share Across Devices</em> off in <strong
 				>Settings → Screen Time</strong
 			>.
@@ -61,8 +61,23 @@ const meta = {
 		<p class="text-gray-500 dark:text-gray-400">
 			如果开启了「跨设备共享」，Apple 会把同一 Apple ID 下其它设备（例如
 			Mac）的用量也算进晷后台收到的数据 里，而 Apple 没有给 App 按设备筛选这些事件的能力。App
-			内的日报只统计这台 iPhone。想让两者一致，请在
+			内的日报只统计这台设备。想让两者一致，请在
 			<strong>设置 → 屏幕时间</strong>中关闭「跨设备共享」。
+		</p>
+
+		<h2 class="text-xl font-semibold">What are active hours and Lock now?</h2>
+		<p>
+			Every limit can run all day, or only inside a window you draw — 9:00 to 18:00, for example.
+			Outside that window nothing counts and nothing is shielded. <strong>Lock now</strong>
+			turns the rule into a zero-minute limit, so its apps are shielded the moment you save it instead
+			of after an allowance is spent. A windowed rule simply stops counting when the window closes, and
+			every rule resets at midnight.
+		</p>
+		<p class="text-gray-500 dark:text-gray-400">
+			每条限额都可以全天生效，也可以只在你划出的时段内生效——例如 9:00 到
+			18:00。时段之外不计时，也不拦截。<strong>立即锁定</strong>会把规则变成一个 0
+			分钟额度，保存的那一刻就锁住这些
+			App，而不必等到额度用完。所有规则都会在午夜重置。
 		</p>
 
 		<h2 class="text-xl font-semibold">What happens when a limit runs out?</h2>
@@ -94,23 +109,23 @@ const meta = {
 
 		<h2 class="text-xl font-semibold">My data</h2>
 		<p>
-			Usage, limits and settings live only on your iPhone — there is no account and no server.
+			Usage, limits and settings live only on your device — there is no account and no server.
 			Deleting the app removes them; removing individual limits or changing the theme does too. See
 			the
 			<a href="/sundial/privacy/">Privacy Policy</a>.
 		</p>
 		<p class="text-gray-500 dark:text-gray-400">
-			用量、限额与设置只保存在你的 iPhone 上，没有账号也没有服务器。删除 App
+			用量、限额与设置只保存在你的设备上，没有账号也没有服务器。删除 App
 			即可清除这些数据，删除单条限额 或更换主题同理。详见<a href="/sundial/privacy/">隐私政策</a>。
 		</p>
 
 		<h2 class="text-xl font-semibold">Requirements</h2>
 		<p>
-			iPhone with iOS 18.5 or later. Sundial is iPhone-only; it does not run on iPad, and it does
-			not track other devices or people.
+			iPhone or iPad with iOS 18.5 or later. Sundial runs on both, and it does not track other
+			devices or people.
 		</p>
 		<p class="text-gray-500 dark:text-gray-400">
-			需要 iOS 18.5 或更高版本的 iPhone。晷仅支持 iPhone，不支持 iPad，也不会监控其它设备或他人。
+			需要 iOS 18.5 或更高版本的 iPhone 或 iPad。Sundial 同时支持两者，也不会监控其它设备或他人。
 		</p>
 	</div>
 </PageLayout>

@@ -67,7 +67,7 @@ src/
   components/            # UI, incl. layout/{Header,Footer}.astro, sundial/
   site.config.ts         # site metadata + menu links
   data/post.ts           # post query helpers
-  i18n/                  # en/zh dictionaries (ui.ts) + locale helpers (utils.ts)
+  i18n/                  # en/zh dictionaries + ja product copy (ui.ts), locale helpers (utils.ts)
   utils/                 # date, toc, webmentions, etc.
 public/                  # icons, manifest, robots.txt, og/ social cards
 scripts/                 # asset generators (not run by the build)
@@ -86,17 +86,22 @@ with `http` automatically get `target="_blank"` + `rel="noopener noreferrer"`.
 Prefer an official product/store page over a GitHub repo when the app has one
 (e.g. Youtube Scroll Saver → its Chrome Web Store listing).
 
-### Add or edit translations (en / zh)
+### Add or edit translations (en / zh / ja)
 
-The site is bilingual: English is served from the root and Chinese from `/zh`.
-All copy lives in `src/i18n/ui.ts` (the `en` object is the source of truth; `zh`
-is typed against it, so a missing key fails `astro check`). Locale helpers
-(`useTranslations`, `localizePath`, `stripLocale`) live in
-`src/i18n/utils.ts`. The home and Sundial pages are rendered by shared
+English is served from the root and Chinese from `/zh`. Japanese ships **only on
+the Sundial product page** (`/ja/sundial/`); the home page is intentionally not
+translated, and `/ja/` is a 404. All copy lives in `src/i18n/ui.ts` (the `en`
+object is the source of truth; `zh` and `ja` are typed against it, so a missing
+key fails `astro check`). The `ja` dictionary is composed as
+`{ ...en, ...jaProduct }`, so it inherits the untranslated home page. Locale
+helpers (`useTranslations`, `localizePath`, `localizeHome`, `stripLocale`) live
+in `src/i18n/utils.ts`. The home and Sundial pages are rendered by shared
 components (`src/components/pages/HomeContent.astro`,
-`src/components/sundial/SundialLanding.astro`) with thin `en`/`zh` page
-wrappers under `src/pages/` and `src/pages/zh/`. **Do not translate brand/app
-names** (Sundial, Youtube Scroll Saver, Code Changes Summarizer, etc.).
+`src/components/sundial/SundialLanding.astro`) with thin page wrappers under
+`src/pages/`, `src/pages/zh/`, and `src/pages/ja/sundial/`. When a page passes
+`alternatePaths`, `LanguageSwitcher` only lists the locales that page has — that
+is how Japanese appears on Sundial but not on the home page. **Do not translate
+brand/app names** (Sundial, Youtube Scroll Saver, Code Changes Summarizer, etc.).
 
 ### Add or edit a blog post
 
@@ -123,8 +128,29 @@ python3 scripts/generate-sundial-og.py   # needs Pillow + numpy + macOS fonts
 ```
 
 Edit `CONTENT` in that script to change the copy, then re-run. `SundialLanding`
-picks `sundial-en.png`/`sundial-zh.png` by locale; wire any new card into a
-page via the `ogImage`/`ogImageAlt` fields on its `meta` object.
+picks `sundial-{en,zh,ja}.png` by locale; wire any new card into a page via
+the `ogImage`/`ogImageAlt` fields on its `meta` object.
+
+### Refresh the Sundial screenshots
+
+The device screenshots in `src/assets/sundial/` are cropped from the app repo's
+1.5 store artwork (`~/projects/apple-project/Sundial/marketing/`), not captured
+from this site:
+
+- `iphone/{en-US,zh-Hans,ja}/0{1..5}-*-framed.jpg` → the phone assets
+  (`screen-today-{en,zh,ja}.webp`, `screen-history-{en,zh,ja}.webp`,
+  `screen-limits-{en,zh,ja}.webp`, `screen-new-limit-{en,zh,ja}.webp`,
+  `screen-shield-{en,zh,ja}.webp`). Those files are 1320×2868 device captures
+  already wrapped in a frame; the raw screen is the 1194×2742 rect at
+  `(63, 63)` (a 63 px paper margin, then a 22 px bezel inset).
+- `ipad/{en-US,zh-Hans,ja}/05-settings-framed.jpg` → `screen-settings-{en,zh,ja}.webp`.
+  Crop the 1866×2554 rect at `(99, 99)` the same way (99 px margin, 16 px inset).
+
+The crops keep a rounded alpha mask matching the device's corner radius (62 pt
+for iPhone, 30 pt for iPad), so the website's own black device frame shows
+through the corners. `screen-today-*.webp` is also the phone in the OG cards, so
+re-run `scripts/generate-sundial-og.py` after refreshing it. The locale-specific
+screens are paired with the page locale in `SundialLanding.astro`.
 
 ## Deployment
 

@@ -18,6 +18,14 @@ export function localizePath(path: string, lang: Lang): string {
 	return clean === "/" ? `/${lang}/` : `/${lang}${clean}/`;
 }
 
+/**
+ * The home page has no Japanese route (only the Sundial product page is
+ * localized there), so a Japanese page's home links point at the English site.
+ */
+export function localizeHome(lang: Lang): string {
+	return lang === "ja" ? "/" : localizePath("/", lang);
+}
+
 /** Remove the leading locale segment from a pathname, if present. */
 export function stripLocale(pathname: string): string {
 	const segments = pathname.split("/").filter(Boolean);

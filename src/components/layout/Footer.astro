@@ -1,5 +1,5 @@
 ---
-import { localizePath, useTranslations, type Lang } from "@/i18n/utils";
+import { localizeHome, localizePath, useTranslations, type Lang } from "@/i18n/utils";
 import { menuLinks, siteConfig } from "@/site-config";
 
 interface Props {
@@ -11,7 +11,7 @@ const t = useTranslations(lang);
 const year = new Date().getFullYear();
 
 const navLinks = menuLinks.map((link) => ({
-	href: localizePath(link.path, lang),
+	href: link.path === "/" ? localizeHome(lang) : localizePath(link.path, lang),
 	title: t.nav[link.key],
 }));
 ---

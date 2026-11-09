@@ -8,6 +8,7 @@ interface Props {
 	priority?: boolean;
 	sizes?: string;
 	src: ImageMetadata;
+	variant?: "pad" | "phone";
 	widths?: number[];
 }
 
@@ -17,11 +18,12 @@ const {
 	priority = false,
 	sizes = "(min-width: 640px) 320px, 74vw",
 	src,
+	variant = "phone",
 	widths = [280, 420, 640, 900],
 } = Astro.props;
 ---
 
-<div class:list={["sd-device", className]}>
+<div class:list={["sd-device", variant === "pad" && "sd-device--pad", className]}>
 	<div class="sd-device-screen">
 		<Image
 			alt={alt}
@@ -32,7 +34,7 @@ const {
 			src={src}
 			widths={widths}
 		/>
-		<span aria-hidden="true" class="sd-island"></span>
+		{variant === "phone" && <span aria-hidden="true" class="sd-island" />}
 	</div>
 </div>
 
@@ -61,6 +63,15 @@ const {
 		display: block;
 		width: 100%;
 		height: auto;
+	}
+
+	.sd-device--pad {
+		border-radius: 1.7rem;
+		padding: 0.42rem;
+	}
+
+	.sd-device--pad .sd-device-screen {
+		border-radius: 1.35rem;
 	}
 
 	.sd-island {
